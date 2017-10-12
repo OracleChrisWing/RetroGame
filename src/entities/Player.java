@@ -2,6 +2,7 @@ package entities;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -39,6 +40,9 @@ public class Player {
 	// The players XY velocity component.
 	private Vector2f velocity = new Vector2f(0.1f, 0.1f);
 	
+	// The vertical speed of the player.
+	private float verticalSpeed = 0.0f;
+	
 	// The input handler.
 	private Input input;
 	
@@ -62,6 +66,8 @@ public class Player {
 	// Logical variables.
 	private boolean isMoving;
 	private boolean isRunning;
+	private boolean isJumping = false;
+	private boolean isGrounded = true;
 	
 	// The games camera object.
 	Camera camera;
@@ -122,7 +128,9 @@ public class Player {
 		}
 	}
 	
-	public void move(int delta) {
+	public void move(int delta, GameContainer c) {
+		
+		Input input_ = c.getInput();
 		
 		// Player is not moving.
 		isMoving = false;
@@ -201,6 +209,35 @@ public class Player {
 					
 					this.currentCameraDistance -= this.velocity.x * delta;
 				}	
+			}
+		}
+		
+		if(input_.isKeyPressed(Input.KEY_SPACE) && !isJumping) {
+			
+			isJumping = true;
+			isGrounded = false;
+			
+			System.out.print("Jumping now!");
+			
+			verticalSpeed = -0.3f * delta;
+		}
+		if(isJumping) {
+			
+			verticalSpeed += 0.01f * delta;
+		}
+		
+		if(this.position.y > 430 && isJumping) {
+			
+			this.position.y += verticalSpeed;
+		}
+		else if(!isGrounded) {
+			
+			isJumping = false;
+			this.position.y -= verticalSpeed;	
+			
+			if(this.position.y >= 490) {
+				
+				isGrounded = true;
 			}
 		}
 	}
