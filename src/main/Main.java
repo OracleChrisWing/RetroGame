@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import entities.Camera;
+import entities.Info;
 import entities.Menu;
 import entities.Player;
 import mapManager.MapData;
@@ -36,8 +37,11 @@ public class Main extends BasicGame {
 	// DELTA time.
 	private long delta;
 	
-	// Initialise any classes that the game needs.
+	// The menu classes of the game.
 	private Menu menu;
+	private Info info;
+	
+	// Initialise any classes that the game needs.
 	private SpriteSheet spriteSheet;
 	private MapLoader mapLoader;
 	private MapData mapData;
@@ -77,6 +81,18 @@ public class Main extends BasicGame {
 		}
 	}
 
+	// ONLY init code here, this will only be run ONCE (on game load).
+	@Override
+	public void init(GameContainer c) throws SlickException {
+		
+		// We load the menu first.
+		if(gameState == GameState.MENU) {
+			
+			menu = new Menu();
+			info = new Info();
+		}
+	}
+	
 	// Render method, ONLY drawing code here.
 	@Override
 	public void render(GameContainer c, Graphics g) throws SlickException {
@@ -85,6 +101,10 @@ public class Main extends BasicGame {
 			
 			menu.displayMenu();
 			
+		}
+		else if(gameState == GameState.INFO) {
+			
+			info.displayInfo();
 		}
 		else if(gameState == GameState.GAME) {
 			
@@ -119,17 +139,6 @@ public class Main extends BasicGame {
 		}		
 	}
 
-	// ONLY init code here, this will only be run ONCE (on game load).
-	@Override
-	public void init(GameContainer c) throws SlickException {
-		
-		// We load the menu first.
-		if(gameState == GameState.MENU) {
-			
-			menu = new Menu();
-		}
-	}
-
 	// UPDATE code only, used for game logic, player control, camera movement etc.
 	@Override
 	public void update(GameContainer c, int delta) throws SlickException {
@@ -137,6 +146,11 @@ public class Main extends BasicGame {
 		if(gameState == GameState.MENU) {
 			
 			menu.updateMenu(c);
+		}
+		else if(gameState == GameState.INFO) {
+			
+			info.updateInfo(c);
+			
 		}
 		else if(gameState == GameState.LOAD) {
 			

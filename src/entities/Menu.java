@@ -102,7 +102,7 @@ public class Menu {
 			}
 			else {
 				
-				System.out.println("Display information screen");
+				Main.updateGameState(GameState.INFO);
 			}
 		}
 	}

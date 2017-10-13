@@ -2,5 +2,5 @@ package toolbox;
 
 public enum GameState {
 
-	MENU, LOAD, GAME
+	MENU, INFO, LOAD, GAME
 }
