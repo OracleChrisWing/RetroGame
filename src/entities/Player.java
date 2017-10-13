@@ -212,12 +212,11 @@ public class Player {
 			}
 		}
 		
+		/* Jumping logic (very basic but will do for now, also need to add a jumping animation)*/
 		if(input_.isKeyPressed(Input.KEY_SPACE) && !isJumping) {
 			
 			isJumping = true;
 			isGrounded = false;
-			
-			System.out.print("Jumping now!");
 			
 			verticalSpeed = -0.3f * delta;
 		}

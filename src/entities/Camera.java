@@ -16,8 +16,9 @@ public class Camera{
 	private int camX;
 	private int camY;
 	
-	private int screenHeight;
-	
+	// The extra speed the player moves at when running.
+	private final float RUN_MODIFIER = 0.2f;
+		
 	private float cameraSpeed = 0.1f;
 	
 	private MapLoader mapLoader;
@@ -48,14 +49,19 @@ public class Camera{
 	
 	public void move(int delta) {
 			
-		System.out.println(player.getCurrentCameraDistance());
+		// System.out.println(player.getCurrentCameraDistance());
 		
 		if(input.isKeyDown(Input.KEY_RIGHT)) {
 			
 			// Player is in the middle of the screen.
 			if(player.getCurrentCameraDistance() >= player.getCameraDistance()) {
 				
-				this.camX += cameraSpeed * delta;	
+				this.camX += cameraSpeed * delta;
+				
+				if(input.isKeyDown(Input.KEY_LSHIFT)) {
+					
+					this.camX += (cameraSpeed + RUN_MODIFIER) * delta;
+				}
 			}
 		}
 		
@@ -64,6 +70,11 @@ public class Camera{
 			if(player.getCurrentCameraDistance() <= 50) {
 				
 				this.camX -= cameraSpeed * delta;
+				
+				if(input.isKeyDown(Input.KEY_LSHIFT)) {
+					
+					this.camX -= (cameraSpeed + RUN_MODIFIER) * delta;
+				}
 			}
 			
 		}
